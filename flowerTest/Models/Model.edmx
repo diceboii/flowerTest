@@ -1,0 +1,282 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище FlowerModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="GroupPpl">
+          <Key>
+            <PropertyRef Name="id_group" />
+          </Key>
+          <Property Name="id_group" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="groupName" Type="nvarchar" MaxLength="40" />
+        </EntityType>
+        <EntityType Name="Meeting">
+          <Key>
+            <PropertyRef Name="id_meet" />
+          </Key>
+          <Property Name="id_meet" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="meetDate" Type="nvarchar" MaxLength="60" />
+          <Property Name="meetTime" Type="nvarchar" MaxLength="20" />
+          <Property Name="meetPlace" Type="nvarchar" MaxLength="70" />
+          <Property Name="meetName" Type="nvarchar" MaxLength="40" />
+          <Property Name="meetTheme" Type="nvarchar" MaxLength="30" />
+          <Property Name="meetLeader" Type="nvarchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="id_prod" />
+          </Key>
+          <Property Name="id_prod" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nameOfProd" Type="nvarchar" MaxLength="50" />
+          <Property Name="price" Type="int" />
+          <Property Name="sellerPhone" Type="nvarchar" MaxLength="20" />
+          <Property Name="amount" Type="int" />
+          <Property Name="about" Type="nvarchar" MaxLength="400" />
+        </EntityType>
+        <EntityType Name="userAbout">
+          <Key>
+            <PropertyRef Name="id_userAbout" />
+          </Key>
+          <Property Name="id_userAbout" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="user_id" Type="int" />
+          <Property Name="lastName" Type="nvarchar" MaxLength="40" />
+          <Property Name="secondName" Type="nvarchar" MaxLength="40" />
+          <Property Name="dateOfBirth" Type="date" />
+          <Property Name="group_id" Type="int" />
+          <Property Name="sex" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="id_users" />
+          </Key>
+          <Property Name="id_users" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="userName" Type="nvarchar" MaxLength="40" />
+          <Property Name="userEmail" Type="nvarchar" MaxLength="40" />
+          <Property Name="userPassword" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <Association Name="FK_Group">
+          <End Role="GroupPpl" Type="Self.GroupPpl" Multiplicity="0..1" />
+          <End Role="userAbout" Type="Self.userAbout" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GroupPpl">
+              <PropertyRef Name="id_group" />
+            </Principal>
+            <Dependent Role="userAbout">
+              <PropertyRef Name="group_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="userAbout" Type="Self.userAbout" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id_users" />
+            </Principal>
+            <Dependent Role="userAbout">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище FlowerModelContainer">
+          <EntitySet Name="GroupPpl" EntityType="Self.GroupPpl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Meeting" EntityType="Self.Meeting" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="userAbout" EntityType="Self.userAbout" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Group" Association="Self.FK_Group">
+            <End Role="GroupPpl" EntitySet="GroupPpl" />
+            <End Role="userAbout" EntitySet="userAbout" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users" Association="Self.FK_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="userAbout" EntitySet="userAbout" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FlowerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="GroupPpl">
+          <Key>
+            <PropertyRef Name="id_group" />
+          </Key>
+          <Property Name="id_group" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="groupName" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="userAbout" Relationship="Self.FK_Group" FromRole="GroupPpl" ToRole="userAbout" />
+        </EntityType>
+        <EntityType Name="Meeting">
+          <Key>
+            <PropertyRef Name="id_meet" />
+          </Key>
+          <Property Name="id_meet" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="meetDate" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="meetTime" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="meetPlace" Type="String" MaxLength="70" FixedLength="false" Unicode="true" />
+          <Property Name="meetName" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="meetTheme" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="meetLeader" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="id_prod" />
+          </Key>
+          <Property Name="id_prod" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nameOfProd" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="price" Type="Int32" />
+          <Property Name="sellerPhone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="amount" Type="Int32" />
+          <Property Name="about" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="userAbout">
+          <Key>
+            <PropertyRef Name="id_userAbout" />
+          </Key>
+          <Property Name="id_userAbout" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="user_id" Type="Int32" />
+          <Property Name="lastName" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="secondName" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="dateOfBirth" Type="DateTime" Precision="0" />
+          <Property Name="group_id" Type="Int32" />
+          <Property Name="sex" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="GroupPpl" Relationship="Self.FK_Group" FromRole="userAbout" ToRole="GroupPpl" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_Users" FromRole="userAbout" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="id_users" />
+          </Key>
+          <Property Name="id_users" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="userName" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="userEmail" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="userPassword" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="userAbout" Relationship="Self.FK_Users" FromRole="Users" ToRole="userAbout" />
+        </EntityType>
+        <Association Name="FK_Group">
+          <End Role="GroupPpl" Type="Self.GroupPpl" Multiplicity="0..1" />
+          <End Role="userAbout" Type="Self.userAbout" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GroupPpl">
+              <PropertyRef Name="id_group" />
+            </Principal>
+            <Dependent Role="userAbout">
+              <PropertyRef Name="group_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="userAbout" Type="Self.userAbout" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id_users" />
+            </Principal>
+            <Dependent Role="userAbout">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FlowerEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="GroupPpl" EntityType="Self.GroupPpl" />
+          <EntitySet Name="Meeting" EntityType="Self.Meeting" />
+          <EntitySet Name="Product" EntityType="Self.Product" />
+          <EntitySet Name="userAbout" EntityType="Self.userAbout" />
+          <EntitySet Name="Users" EntityType="Self.Users" />
+          <AssociationSet Name="FK_Group" Association="Self.FK_Group">
+            <End Role="GroupPpl" EntitySet="GroupPpl" />
+            <End Role="userAbout" EntitySet="userAbout" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users" Association="Self.FK_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="userAbout" EntitySet="userAbout" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище FlowerModelContainer" CdmEntityContainer="FlowerEntities">
+          <EntitySetMapping Name="GroupPpl">
+            <EntityTypeMapping TypeName="FlowerModel.GroupPpl">
+              <MappingFragment StoreEntitySet="GroupPpl">
+                <ScalarProperty Name="id_group" ColumnName="id_group" />
+                <ScalarProperty Name="groupName" ColumnName="groupName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Meeting">
+            <EntityTypeMapping TypeName="FlowerModel.Meeting">
+              <MappingFragment StoreEntitySet="Meeting">
+                <ScalarProperty Name="id_meet" ColumnName="id_meet" />
+                <ScalarProperty Name="meetDate" ColumnName="meetDate" />
+                <ScalarProperty Name="meetTime" ColumnName="meetTime" />
+                <ScalarProperty Name="meetPlace" ColumnName="meetPlace" />
+                <ScalarProperty Name="meetName" ColumnName="meetName" />
+                <ScalarProperty Name="meetTheme" ColumnName="meetTheme" />
+                <ScalarProperty Name="meetLeader" ColumnName="meetLeader" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Product">
+            <EntityTypeMapping TypeName="FlowerModel.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="id_prod" ColumnName="id_prod" />
+                <ScalarProperty Name="nameOfProd" ColumnName="nameOfProd" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="sellerPhone" ColumnName="sellerPhone" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="about" ColumnName="about" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="userAbout">
+            <EntityTypeMapping TypeName="FlowerModel.userAbout">
+              <MappingFragment StoreEntitySet="userAbout">
+                <ScalarProperty Name="id_userAbout" ColumnName="id_userAbout" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="lastName" ColumnName="lastName" />
+                <ScalarProperty Name="secondName" ColumnName="secondName" />
+                <ScalarProperty Name="dateOfBirth" ColumnName="dateOfBirth" />
+                <ScalarProperty Name="group_id" ColumnName="group_id" />
+                <ScalarProperty Name="sex" ColumnName="sex" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="FlowerModel.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="id_users" ColumnName="id_users" />
+                <ScalarProperty Name="userName" ColumnName="userName" />
+                <ScalarProperty Name="userEmail" ColumnName="userEmail" />
+                <ScalarProperty Name="userPassword" ColumnName="userPassword" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
